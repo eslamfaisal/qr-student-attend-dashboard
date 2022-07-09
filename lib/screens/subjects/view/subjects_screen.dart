@@ -40,7 +40,7 @@ class SubjectsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              tr("categories"),
+                              tr("subjects"),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 24),
                             ),

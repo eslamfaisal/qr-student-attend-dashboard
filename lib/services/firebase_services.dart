@@ -10,6 +10,7 @@ import 'package:qr_attend/services/shared_pref_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qr_attend/utils/constants.dart';
 
 import '../locator.dart';
 import '../screens/login/model/system_user_model.dart';
@@ -55,6 +56,42 @@ class FirebaseServices {
       }
     } catch (e) {
       print('eeror in getSystemUserProfile: $e');
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
+
+  Future<Resource<SystemUserModel>> createNewSystemUser(String name,
+      String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      Resource<SystemUserModel> storeUserResponse = await storeSystemUserInfo(
+          userCredential.user!, name);
+      if (storeUserResponse.status == Status.SUCCESS) {
+        return Resource(Status.SUCCESS, data: storeUserResponse.data);
+      } else {
+        return Resource(Status.ERROR,
+            errorMessage: storeUserResponse.toString());
+      }
+    } on FirebaseAuthException catch (e) {
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    } catch (e) {
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
+
+  Future<Resource<SystemUserModel>> storeSystemUserInfo(
+      User data, String name) async {
+    SystemUserModel model = SystemUserModel(
+      name: name,
+      email: data.email,
+      id: data.uid,
+    );
+    try {
+      await db.collection("system_users").doc(data.uid).set(model.toJson());
+      return Resource(Status.SUCCESS, data: model);
+    } on FirebaseAuthException catch (e) {
       return Resource(Status.ERROR, errorMessage: e.toString());
     }
   }
@@ -169,6 +206,39 @@ class FirebaseServices {
     } catch (e) {
       return Resource(Status.ERROR, errorMessage: e.toString());
     }
+  }
+
+  Future<Resource<List<SystemUserModel>>> getSystemUsers() async {
+    List<SystemUserModel> systemUsers = [];
+    try {
+      await db.collection("system_users").get().then((value) {
+        for (var element in value.docs) {
+          systemUsers.add(SystemUserModel.fromJson(element.data()));
+        }
+      });
+      return Resource(Status.SUCCESS, data: systemUsers);
+    } on FirebaseAuthException catch (e) {
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
+
+  Future<Resource<UserCredential>> reLogin() async {
+    try {
+      await auth.signOut();
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: currentLoggedInUserData.email!,
+          password: currentLoginPassword);
+      return Resource(Status.SUCCESS, data: userCredential);
+    } catch (e) {
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
+
+  void deleteUser(SystemUserModel systemUser) async {
+    db.collection("system_users")
+        .doc(systemUser.id)
+        .delete()
+        .then((value) => print('deleted'));
   }
 
 }

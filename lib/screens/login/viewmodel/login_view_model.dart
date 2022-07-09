@@ -25,6 +25,7 @@ class LoginViewModel extends BaseViewModel {
       setState(ViewState.Busy);
       Resource<UserCredential>? response = await _firebaseServices.login(
           emailController.value.text.trim(), passwordController.value.text);
+      currentLoginPassword = passwordController.value.text;
       if (response.status == Status.ERROR) {
         setState(ViewState.Idle);
         return Resource(Status.ERROR, errorMessage: response.errorMessage);
