@@ -41,7 +41,10 @@ class _NavigationContainerState extends State<NavigationContainer>
         // iconTheme: IconThemeData(color: Colors.green),
         automaticallyImplyLeading:
             MediaQuery.of(context).size.width < 1300 ? true : false,
-        title: Image.asset('assets/images/ic_logo.png'),
+        title: Text(
+          '${tr('الحضور')}',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: <Widget>[
           const SizedBox(width: 16),
           PopupMenuButton(
@@ -128,74 +131,15 @@ class _NavigationContainerState extends State<NavigationContainer>
       physics: const BouncingScrollPhysics(), // shrinkWrap: true,
       children: <Widget>[
         DrawerItemWidget(
-          tr("countries"),
-          tabController!.index == COUNTRIES_INDEX
-              ? Colors.deepOrange[200]!
-              : Colors.white,
-          () {
-            locator<NavigationService>().navigateTo(RouteName.COUNTIRES_SCREEN);
-          },
-          Icon(
-            Icons.category,
-            color: primaryColor,
-            size: 26,
-          ),
-        ),
-        DrawerItemWidget(
-          tr("categories"),
+          tr("subjects"),
           tabController!.index == CATEGORIES_INDEX
               ? Colors.deepOrange[200]!
               : Colors.white,
           () {
-            locator<NavigationService>()
-                .navigateTo(RouteName.CATEGORIES_SCREEN);
+            locator<NavigationService>().navigateTo(RouteName.SUBJECTS_SCREEN);
           },
           Icon(
             Icons.category,
-            color: primaryColor,
-            size: 26,
-          ),
-        ),
-        DrawerItemWidget(
-          tr("stores"),
-          tabController!.index == STORES_INDEX
-              ? Colors.deepOrange[200]!
-              : Colors.white,
-          () {
-            locator<NavigationService>().navigateTo(RouteName.STORES_SCREEN);
-          },
-          Icon(
-            Icons.store,
-            color: primaryColor,
-            size: 26,
-          ),
-        ),
-        DrawerItemWidget(
-          tr("coupon_and_offers"),
-          tabController!.index == COUPONS_OFFERS_INDEX
-              ? Colors.deepOrange[200]!
-              : Colors.white,
-          () {
-            locator<NavigationService>()
-                .navigateTo(RouteName.COUPONS_OFFERS_SCREEN);
-          },
-          Icon(
-            Icons.store,
-            color: primaryColor,
-            size: 26,
-          ),
-        ),
-        DrawerItemWidget(
-          tr("notifications"),
-          tabController!.index == NOTIFICATIONS_INDEX
-              ? Colors.deepOrange[200]!
-              : Colors.white,
-          () {
-            locator<NavigationService>()
-                .navigateTo(RouteName.NOTIFICATIONS_SCREEN);
-          },
-          Icon(
-            Icons.store,
             color: primaryColor,
             size: 26,
           ),

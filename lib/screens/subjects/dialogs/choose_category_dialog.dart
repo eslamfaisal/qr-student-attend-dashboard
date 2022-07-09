@@ -1,6 +1,6 @@
 import 'package:qr_attend/locator.dart';
-import 'package:qr_attend/screens/categories/model/category_model.dart';
-import 'package:qr_attend/screens/categories/viewmodel/categories_view_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/categories_view_model.dart';
 import 'package:qr_attend/services/navigation_service.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
@@ -30,7 +30,7 @@ class ChooseCategoriesDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  bold14Text(tr("search_categories")),
+                  bold14Text(tr("search_subjects")),
                   IconButton(
                     icon: const Icon(Icons.close, color: Colors.black),
                     onPressed: () {
@@ -54,10 +54,7 @@ class ChooseCategoriesDialog extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   bold14Text(
-                                    translatedString(
-                                      ar: country.name_ar!,
-                                      en: country.name_en!,
-                                    ),
+                                    country.name!,
                                     color: darkBlueColor,
                                   ),
                                 ],

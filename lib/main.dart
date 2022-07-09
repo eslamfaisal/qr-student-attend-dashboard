@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.deepOrange,
           fontFamily: 'Cairo',
       ),
-      initialRoute: RouteName.COUPONS_OFFERS_SCREEN,
+      initialRoute: RouteName.SUBJECTS_SCREEN,
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: AppRouter.generateRoute,
     );

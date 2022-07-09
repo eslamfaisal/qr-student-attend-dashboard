@@ -34,11 +34,11 @@ class LoginScreen extends StatelessWidget {
                       key: loginViewModel.formKey,
                       child: Column(
                         children: [
-                          SizedBox(
-                            width: 300,
-                            height: 300,
-                            child: Image.asset('assets/images/ic_logo.png'),
-                          ),
+                          // SizedBox(
+                          //   width: 300,
+                          //   height: 300,
+                          //   child: Image.asset('assets/images/ic_logo.png'),
+                          // ),
                           headerText(
                             tr('login'),
                           ),

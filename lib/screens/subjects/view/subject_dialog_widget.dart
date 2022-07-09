@@ -5,8 +5,8 @@ import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/locator.dart';
 import 'package:qr_attend/models/resources.dart';
 import 'package:qr_attend/models/status.dart';
-import 'package:qr_attend/screens/categories/model/category_model.dart';
-import 'package:qr_attend/screens/categories/viewmodel/category_dialog_view_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/category_dialog_view_model.dart';
 import 'package:qr_attend/services/navigation_service.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
@@ -15,20 +15,18 @@ import 'package:qr_attend/widgets/styled_text_field.dart';
 
 import '../../base_screen.dart';
 
-class CategoryDialogWidget extends StatelessWidget {
-  CategoryModel? categoryModel;
+class SubjectDialogWidget extends StatelessWidget {
+  SubjectModel? categoryModel;
   bool? isNewCategory = true;
 
-  CategoryDialogWidget({@required this.isNewCategory, this.categoryModel});
+  SubjectDialogWidget({@required this.isNewCategory, this.categoryModel});
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen<CategoryDialogViewModel>(
       onModelReady: (viewModel) {
         if (!isNewCategory!) {
-          viewModel.titleARController.text = categoryModel!.name_ar!;
-          viewModel.titleENController.text = categoryModel!.name_en!;
-          viewModel.priorityController.text = categoryModel!.priority!.toString();
+          viewModel.titleController.text = categoryModel!.name!;
         }
       },
       builder: (c, viewModel, _) {
@@ -43,7 +41,7 @@ class CategoryDialogWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    bold14Text(tr('add_new_category')),
+                    bold14Text(tr('add_new_subject')),
                     IconButton(
                       icon: Icon(Icons.close, color: Colors.black),
                       onPressed: () {
@@ -56,23 +54,10 @@ class CategoryDialogWidget extends StatelessWidget {
                 Divider(color: Colors.grey),
                 heightSpace(4),
                 StyledTextField(
-                  controller: viewModel.titleARController,
-                  hint: tr('title_ar'),
+                  controller: viewModel.titleController,
+                  hint: tr('title'),
                   validator: requiredValidator(),
                 ),
-                heightSpace(8),
-                StyledTextField(
-                  controller: viewModel.titleENController,
-                  hint: tr('title_en'),
-                  validator: requiredValidator(),
-                ),
-                heightSpace(8),
-                StyledTextField(
-                  controller: viewModel.priorityController,
-                  hint: tr('priority'),
-                  validator: requiredValidator(),
-                ),
-                heightSpace(8),
                 heightSpace(16),
                 IntrinsicHeight(
                   child: Row(
@@ -82,7 +67,7 @@ class CategoryDialogWidget extends StatelessWidget {
                           ? const CircularProgressIndicator()
                           : TextButton(
                               onPressed: () async {
-                                Resource<CategoryModel>? response;
+                                Resource<SubjectModel>? response;
                                 if (!isNewCategory!) {
                                   response = await viewModel.updateAd(categoryModel!);
                                 } else {

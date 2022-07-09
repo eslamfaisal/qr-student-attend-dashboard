@@ -193,5 +193,8 @@
   "offer_price_hint": "ملاحظات السعر",
   "notification_body": "الرساله",
   "send_new_notification": "ارسال اشعار جديد",
-  "resend": "اعادة ارسال"
+  "resend": "اعادة ارسال",
+  "subjects": "المواد",
+  "add_new_subject": "اضافة مادة جديد",
+  "title": "الاسم"
 }

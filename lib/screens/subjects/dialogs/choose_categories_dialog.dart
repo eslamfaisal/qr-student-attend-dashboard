@@ -1,6 +1,6 @@
 import 'package:qr_attend/locator.dart';
-import 'package:qr_attend/screens/categories/model/category_model.dart';
-import 'package:qr_attend/screens/categories/viewmodel/categories_view_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/categories_view_model.dart';
 import 'package:qr_attend/services/navigation_service.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
@@ -12,13 +12,13 @@ import 'package:flutter/material.dart';
 import '../../base_screen.dart';
 
 class ChooseCategoriesDialog extends StatelessWidget {
-  List<CategoryModel> countries;
+  List<SubjectModel> countries;
 
   ChooseCategoriesDialog(this.countries);
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen<CategoriesViewModel>(
+    return BaseScreen<SubjectsViewModel>(
       onModelReady: (viewModel) {
       },
       builder: (context, viewModel, _) {
@@ -99,10 +99,7 @@ class ChooseCategoriesDialog extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       bold14Text(
-                                        translatedString(
-                                          ar: country.name_ar!,
-                                          en: country.name_en!,
-                                        ),
+                                        country.name!,
                                         color: darkBlueColor,
                                       ),
                                     ],

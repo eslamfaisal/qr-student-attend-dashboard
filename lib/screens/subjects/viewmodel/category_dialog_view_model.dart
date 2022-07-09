@@ -5,31 +5,23 @@ import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/models/resources.dart';
 import 'package:qr_attend/models/status.dart';
 import 'package:qr_attend/screens/base_view_model.dart';
-import 'package:qr_attend/screens/categories/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
 import 'package:qr_attend/services/firebase_services.dart';
 
 import '../../../locator.dart';
 
 class CategoryDialogViewModel extends BaseViewModel {
   final formKey = GlobalKey<FormState>();
-  TextEditingController titleARController = TextEditingController();
-  TextEditingController titleENController = TextEditingController();
-  TextEditingController priorityController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
   final _firebaseServices = locator<FirebaseServices>();
 
-  Future<Resource<CategoryModel>> updateAd(
-      CategoryModel oldCategoryModel) async {
+  Future<Resource<SubjectModel>> updateAd(SubjectModel oldCategoryModel) async {
     setState(ViewState.Busy);
 
-
-
-    if (formKey.currentState!.validate() ) {
-
-      CategoryModel updatedCategoryModel = CategoryModel(
+    if (formKey.currentState!.validate()) {
+      SubjectModel updatedCategoryModel = SubjectModel(
         id: oldCategoryModel.id,
-        name_en: titleENController.value.text,
-        name_ar: titleARController.value.text,
-        priority: double.parse(priorityController.value.text),
+        name: titleController.value.text,
       );
 
       Resource<String> response =
@@ -46,24 +38,21 @@ class CategoryDialogViewModel extends BaseViewModel {
     }
   }
 
-  Future<Resource<CategoryModel>> createNewAd() async {
+  Future<Resource<SubjectModel>> createNewAd() async {
     setState(ViewState.Busy);
     if (formKey.currentState!.validate()) {
-
-      String categoryID =
-          FirebaseFirestore.instance.collection("categories").doc().id;
-      CategoryModel categoryModel = CategoryModel(
-        id: categoryID,
-        name_en: titleENController.value.text,
-        name_ar: titleARController.value.text,
-        priority: double.parse(priorityController.value.text),
+      String subjectID =
+          FirebaseFirestore.instance.collection("subjects").doc().id;
+      SubjectModel subjectModel = SubjectModel(
+        id: subjectID,
+        name: titleController.value.text,
       );
 
       Resource<String> response =
-          await _firebaseServices.createNewCategory(categoryModel);
+          await _firebaseServices.createNewCategory(subjectModel);
       if (response.status == Status.SUCCESS) {
         setState(ViewState.Idle);
-        return Resource(Status.SUCCESS, data: categoryModel);
+        return Resource(Status.SUCCESS, data: subjectModel);
       } else {
         return Resource(Status.ERROR, errorMessage: response.errorMessage);
       }
@@ -72,5 +61,4 @@ class CategoryDialogViewModel extends BaseViewModel {
       return Resource(Status.ERROR, errorMessage: tr('fill_all_fields'));
     }
   }
-
 }

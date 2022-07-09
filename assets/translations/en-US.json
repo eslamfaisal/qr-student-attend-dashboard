@@ -193,5 +193,8 @@
   "search_coupon_offer": "Search coupon offer",
   "notification_body": "Body",
   "send_new_notification": "Send new notification",
-  "resend": "Resend"
+  "resend": "Resend",
+  "subjects": "Subjects",
+  "add_new_subject": "Add new Subjects",
+  "title": "Title"
 }

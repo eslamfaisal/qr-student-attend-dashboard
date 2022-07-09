@@ -1,6 +1,6 @@
 import 'package:qr_attend/enums/screen_state.dart';
-import 'package:qr_attend/screens/categories/viewmodel/categories_view_model.dart';
-import 'package:qr_attend/screens/categories/widgets/catrgory_item_widgets.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/categories_view_model.dart';
+import 'package:qr_attend/screens/subjects/widgets/catrgory_item_widgets.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
 import 'package:qr_attend/utils/extensions.dart';
@@ -10,16 +10,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../base_screen.dart';
-import 'category_dialog_widget.dart';
+import 'subject_dialog_widget.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({Key? key}) : super(key: key);
+class SubjectsScreen extends StatelessWidget {
+  const SubjectsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen<CategoriesViewModel>(
+    return BaseScreen<SubjectsViewModel>(
       onModelReady: (viewModel) {
-        viewModel.getCategories();
+        viewModel.getSubjects();
       },
       builder: (context, viewModel, _) {
         if (viewModel.state == ViewState.Busy) {
@@ -46,7 +46,7 @@ class CategoriesScreen extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                bold14Text(tr('add_new_category')),
+                                bold14Text(tr('add_new_subject')),
                                 widthSpace(4),
                                 const Icon(
                                   Icons.add_box_outlined,
@@ -58,7 +58,7 @@ class CategoriesScreen extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (_) => AlertDialog(
-                                    content: CategoryDialogWidget(
+                                    content: SubjectDialogWidget(
                                         isNewCategory: true),
                                   ),
                                 );
@@ -78,11 +78,7 @@ class CategoriesScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                bold14Text(tr('title_ar')),
-                                VerticalDivider(),
-                                bold14Text(tr('title_en')),
-                                VerticalDivider(),
-                                bold14Text(tr('priority')),
+                                bold14Text(tr('title')),
                                 VerticalDivider(),
                                 bold14Text(tr('action')),
                               ],

@@ -1,6 +1,6 @@
-import 'package:qr_attend/screens/categories/model/category_model.dart';
-import 'package:qr_attend/screens/categories/view/category_dialog_widget.dart';
-import 'package:qr_attend/screens/categories/viewmodel/categories_view_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/view/subject_dialog_widget.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/categories_view_model.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
 import 'package:qr_attend/utils/extensions.dart';
@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 
 class CategoryItemWidget extends StatelessWidget {
   final int index;
-  final CategoriesViewModel viewModel;
+  final SubjectsViewModel viewModel;
 
   CategoryItemWidget(this.index, this.viewModel);
 
   @override
   Widget build(BuildContext context) {
-    CategoryModel category = currentAllCategories[index];
+    SubjectModel category = currentAllCategories[index];
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -29,25 +29,7 @@ class CategoryItemWidget extends StatelessWidget {
                 flex: 1,
                 child: Center(
                   child: bold14Text(
-                    notNullString(category.name_ar),
-                  ),
-                ),
-              ),
-              VerticalDivider(),
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: bold14Text(
-                    notNullString(category.name_en),
-                  ),
-                ),
-              ),
-              VerticalDivider(),
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: bold14Text(
-                    notNullString(category.priority),
+                    notNullString(category.name),
                   ),
                 ),
               ),
@@ -64,7 +46,7 @@ class CategoryItemWidget extends StatelessWidget {
                       await showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
-                          content: CategoryDialogWidget(
+                          content: SubjectDialogWidget(
                             isNewCategory: false,
                             categoryModel: currentAllCategories[index],
                           ),
@@ -91,7 +73,7 @@ class CategoryItemWidget extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    viewModel.deleteAd(index);
+                                    viewModel.delete(index);
                                     final snackBar = SnackBar(
                                         content:
                                             Text(tr('deleted_successfully')));

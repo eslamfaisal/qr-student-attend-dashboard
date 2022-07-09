@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:qr_attend/models/resources.dart';
 import 'package:qr_attend/models/status.dart';
-import 'package:qr_attend/screens/categories/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
 import 'package:qr_attend/screens/countries/model/country_model.dart';
 import 'package:qr_attend/services/shared_pref_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,7 +40,7 @@ class FirebaseServices {
   Future<Resource<SystemUserModel>> getSystemUserProfile(String userId) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> value =
-          await db.collection('dashboard_users').doc(userId).get();
+          await db.collection('system_users').doc(userId).get();
       if (value.exists) {
         SystemUserModel userModel = SystemUserModel.fromJson(value.data()!);
 
@@ -59,13 +59,13 @@ class FirebaseServices {
     }
   }
 
-  Future<Resource<List<CategoryModel>>> getCategories() async {
+  Future<Resource<List<SubjectModel>>> getCategories() async {
     try {
       QuerySnapshot<Map<String, dynamic>> response =
-          await db.collection('stores_categories').get();
+          await db.collection('subjects').get();
 
-      List<CategoryModel> categoriesList = response.docs
-          .map((doc) => CategoryModel.fromJson(doc.data()))
+      List<SubjectModel> categoriesList = response.docs
+          .map((doc) => SubjectModel.fromJson(doc.data()))
           .toList();
 
       print('categoriesList: ${categoriesList.length}');
@@ -77,10 +77,10 @@ class FirebaseServices {
   }
 
 
-  Future<Resource<CategoryModel>> getCategoryDetails(String id) async {
+  Future<Resource<SubjectModel>> getCategoryDetails(String id) async {
     try {
-      var response = await db.collection('stores_categories').doc(id).get();
-      var category = CategoryModel.fromJson(response.data()!);
+      var response = await db.collection('subjects').doc(id).get();
+      var category = SubjectModel.fromJson(response.data()!);
       return Resource(Status.SUCCESS, data: category);
     } catch (e) {
       print('errrrorr ${e.toString()}');
@@ -98,7 +98,7 @@ class FirebaseServices {
 
   void deleteCategory(String id) {
     db
-        .collection('stores_categories')
+        .collection('subjects')
         .doc(id)
         .delete()
         .then((value) => print('ad deleted'));
@@ -121,10 +121,10 @@ class FirebaseServices {
   }
 
   Future<Resource<String>> createNewCategory(
-      CategoryModel categoryModel) async {
+      SubjectModel categoryModel) async {
     try {
       await db
-          .collection('stores_categories')
+          .collection('subjects')
           .doc(categoryModel.id)
           .set(categoryModel.toJson());
       return Resource(Status.SUCCESS, data: tr('created_successfully'));
@@ -146,10 +146,10 @@ class FirebaseServices {
   }
 
   Future<Resource<String>> updateCategoryModel(
-      CategoryModel categoryModel) async {
+      SubjectModel categoryModel) async {
     try {
       await db
-          .collection('stores_categories')
+          .collection('subjects')
           .doc(categoryModel.id)
           .update(categoryModel.toJson());
       return Resource(Status.SUCCESS, data: tr('updated_successfully'));

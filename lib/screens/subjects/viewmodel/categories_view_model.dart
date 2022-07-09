@@ -2,33 +2,33 @@ import 'dart:async';
 
 import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/screens/base_view_model.dart';
-import 'package:qr_attend/screens/categories/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
 import 'package:qr_attend/services/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../locator.dart';
 
-List<CategoryModel> currentAllCategories = [];
+List<SubjectModel> currentAllCategories = [];
 StreamSubscription? snapshot;
 
-class CategoriesViewModel extends BaseViewModel {
+class SubjectsViewModel extends BaseViewModel {
   final _firebaseServices = locator<FirebaseServices>();
 
-  List<CategoryModel> selectedCategoriesList = [];
-  List<CategoryModel> oldSelectedCategories = [];
+  List<SubjectModel> selectedCategoriesList = [];
+  List<SubjectModel> oldSelectedCategories = [];
 
-  getCategories() async {
+  getSubjects() async {
     if (snapshot != null) {
       setState(ViewState.Idle);
       return;
     }
     snapshot = FirebaseFirestore.instance
-        .collection('stores_categories')
+        .collection('subjects')
         .snapshots()
         .listen((event) {
       print('getCategories snapshot = ${event.docs.length}');
       currentAllCategories =
-          event.docs.map((doc) => CategoryModel.fromJson(doc.data())).toList();
+          event.docs.map((doc) => SubjectModel.fromJson(doc.data())).toList();
       setState(ViewState.Idle);
     });
   }
@@ -42,7 +42,7 @@ class CategoriesViewModel extends BaseViewModel {
     }
   }
 
-  void deleteAd(int index) {
+  void delete(int index) {
     try {
       _firebaseServices.deleteCategory(currentAllCategories[index].id!);
       currentAllCategories.removeAt(index);
@@ -50,7 +50,7 @@ class CategoriesViewModel extends BaseViewModel {
     } catch (e) {}
   }
 
-  void onCountrySelected(CategoryModel country) {
+  void onCountrySelected(SubjectModel country) {
     if (selectedCategoriesList.contains(country)) {
       selectedCategoriesList.remove(country);
     } else {
