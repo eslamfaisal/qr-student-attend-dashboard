@@ -46,6 +46,12 @@ class SystemUserDialog extends StatelessWidget {
                   const Divider(color: Colors.grey),
                   heightSpace(4),
                   StyledTextField(
+                    controller: viewModel.idController,
+                    hint: tr('id'),
+                    validator: requiredValidator(),
+                  ),
+                  heightSpace(4),
+                  StyledTextField(
                     controller: viewModel.nameController,
                     hint: tr('name'),
                     validator: requiredValidator(),

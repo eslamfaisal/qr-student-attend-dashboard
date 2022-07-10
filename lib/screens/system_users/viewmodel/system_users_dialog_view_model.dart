@@ -14,6 +14,7 @@ import '../../../locator.dart';
 
 class SystemUsersDialogViewModel extends BaseViewModel {
   TextEditingController nameController = TextEditingController();
+  TextEditingController idController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -47,6 +48,7 @@ class SystemUsersDialogViewModel extends BaseViewModel {
     setState(ViewState.Busy);
     Resource<SystemUserModel> response =
         await _firebaseServices.createNewSystemUser(
+      idController.value.text,
       nameController.value.text,
       emailController.value.text,
       passwordController.value.text,

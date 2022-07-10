@@ -60,14 +60,14 @@ class FirebaseServices {
     }
   }
 
-  Future<Resource<SystemUserModel>> createNewSystemUser(String name,
+  Future<Resource<SystemUserModel>> createNewSystemUser(String id, String name,
       String email, String password, String type) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
       Resource<SystemUserModel> storeUserResponse = await storeSystemUserInfo(
-          userCredential.user!, name, password, type);
+          id, userCredential.user!, name, password, type);
       if (storeUserResponse.status == Status.SUCCESS) {
         return Resource(Status.SUCCESS, data: storeUserResponse.data);
       } else {
@@ -82,16 +82,16 @@ class FirebaseServices {
   }
 
   Future<Resource<SystemUserModel>> storeSystemUserInfo(
-      User data, String name, String password, String type) async {
+      String id, User data, String name, String password, String type) async {
     SystemUserModel model = SystemUserModel(
+      id: id,
       name: name,
       email: data.email,
-      id: data.uid,
       password: password,
       type: type,
     );
     try {
-      await db.collection("system_users").doc(data.uid).set(model.toJson());
+      await db.collection("system_users").doc(id).set(model.toJson());
       return Resource(Status.SUCCESS, data: model);
     } on FirebaseAuthException catch (e) {
       return Resource(Status.ERROR, errorMessage: e.toString());
@@ -114,7 +114,6 @@ class FirebaseServices {
       return Resource(Status.ERROR, errorMessage: e.toString());
     }
   }
-
 
   Future<Resource<SubjectModel>> getCategoryDetails(String id) async {
     try {
@@ -159,8 +158,7 @@ class FirebaseServices {
         .then((value) => print('ad deleted'));
   }
 
-  Future<Resource<String>> createNewCategory(
-      SubjectModel categoryModel) async {
+  Future<Resource<String>> createNewCategory(SubjectModel categoryModel) async {
     try {
       await db
           .collection('subjects')
@@ -237,10 +235,10 @@ class FirebaseServices {
   }
 
   void deleteUser(SystemUserModel systemUser) async {
-    db.collection("system_users")
+    db
+        .collection("system_users")
         .doc(systemUser.id)
         .delete()
         .then((value) => print('deleted'));
   }
-
 }
