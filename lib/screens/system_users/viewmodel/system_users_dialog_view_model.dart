@@ -6,6 +6,7 @@ import 'package:qr_attend/models/resources.dart';
 import 'package:qr_attend/models/status.dart';
 import 'package:qr_attend/screens/base_view_model.dart';
 import 'package:qr_attend/screens/login/model/system_user_model.dart';
+import 'package:qr_attend/screens/system_users/model/UserType.dart';
 import 'package:qr_attend/services/firebase_services.dart';
 import 'package:qr_attend/utils/texts.dart';
 
@@ -21,6 +22,15 @@ class SystemUsersDialogViewModel extends BaseViewModel {
 
   List<SystemUserModel> systemUsers = [];
   List<String> selectedRules = [];
+
+  UserType? selectedUserType = UserType.student;
+
+  var listUserTypeMethod = [
+    UserType.student,
+    UserType.doctor,
+    UserType.assistant,
+    UserType.dahsboard,
+  ];
 
   void setRule(String role, bool selected) {
     try {
@@ -40,6 +50,7 @@ class SystemUsersDialogViewModel extends BaseViewModel {
       nameController.value.text,
       emailController.value.text,
       passwordController.value.text,
+      selectedUserType!.getType(),
     );
     switch (response.status) {
       case Status.SUCCESS:
@@ -68,6 +79,11 @@ class SystemUsersDialogViewModel extends BaseViewModel {
       default:
         print('wtf');
     }
+    setState(ViewState.Idle);
+  }
+
+  void setUserType(UserType? value) {
+    selectedUserType = value;
     setState(ViewState.Idle);
   }
 }

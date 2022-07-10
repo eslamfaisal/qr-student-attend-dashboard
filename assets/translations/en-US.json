@@ -196,5 +196,9 @@
   "resend": "Resend",
   "subjects": "Subjects",
   "add_new_subject": "Add new Subjects",
-  "title": "Title"
+  "title": "Title",
+  "student": "Student",
+  "doctor": "Doctor",
+  "assistant": "Assistant",
+  "dahsboard": "Dashboard"
 }

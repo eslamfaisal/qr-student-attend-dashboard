@@ -1,7 +1,6 @@
 import 'package:qr_attend/routs/routing_data.dart';
 import 'package:qr_attend/routs/routs_names.dart';
 import 'package:qr_attend/screens/subjects/view/subjects_screen.dart';
-import 'package:qr_attend/screens/countries/view/countries_screen.dart';
 import 'package:qr_attend/screens/login/view/login_screen.dart';
 import 'package:qr_attend/screens/navigation/navigation_index.dart';
 import 'package:qr_attend/screens/navigation/view/navigation_container.dart';
@@ -9,6 +8,7 @@ import 'package:qr_attend/screens/not_found_screen/not_found_screen.dart';
 import 'package:qr_attend/screens/splash/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_attend/screens/system_users/view/system_users_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -33,11 +33,10 @@ class AppRouter {
             NavigationContainer(const SubjectsScreen(), CATEGORIES_INDEX),
             settings);
 
-      // case RouteName.COUNTIRES_SCREEN:
-      //   return _getPageRoute(
-      //       NavigationContainer(const CountriesScreen(), COUNTRIES_INDEX),
-      //       settings);
-
+      case RouteName.COUNTIRES_SCREEN:
+        return _getPageRoute(
+            NavigationContainer(const SystemUsersScreen(), SYSTEM_USERS_INDEX),
+            settings);
 
       default:
         return _getPageRoute(const NotFoundScreen(), settings);

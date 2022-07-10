@@ -61,13 +61,13 @@ class FirebaseServices {
   }
 
   Future<Resource<SystemUserModel>> createNewSystemUser(String name,
-      String email, String password) async {
+      String email, String password, String type) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
       Resource<SystemUserModel> storeUserResponse = await storeSystemUserInfo(
-          userCredential.user!, name);
+          userCredential.user!, name, password, type);
       if (storeUserResponse.status == Status.SUCCESS) {
         return Resource(Status.SUCCESS, data: storeUserResponse.data);
       } else {
@@ -82,11 +82,13 @@ class FirebaseServices {
   }
 
   Future<Resource<SystemUserModel>> storeSystemUserInfo(
-      User data, String name) async {
+      User data, String name, String password, String type) async {
     SystemUserModel model = SystemUserModel(
       name: name,
       email: data.email,
       id: data.uid,
+      password: password,
+      type: type,
     );
     try {
       await db.collection("system_users").doc(data.uid).set(model.toJson());

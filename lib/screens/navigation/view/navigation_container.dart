@@ -144,6 +144,20 @@ class _NavigationContainerState extends State<NavigationContainer>
             size: 26,
           ),
         ),
+        DrawerItemWidget(
+          tr("users"),
+          tabController!.index == SYSTEM_USERS_INDEX
+              ? Colors.deepOrange[200]!
+              : Colors.white,
+          () {
+            locator<NavigationService>().navigateTo(RouteName.COUNTIRES_SCREEN);
+          },
+          Icon(
+            Icons.category,
+            color: primaryColor,
+            size: 26,
+          ),
+        ),
       ],
     );
   }

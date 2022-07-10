@@ -196,5 +196,9 @@
   "resend": "اعادة ارسال",
   "subjects": "المواد",
   "add_new_subject": "اضافة مادة جديد",
-  "title": "الاسم"
+  "title": "الاسم",
+  "student": "طالب",
+  "doctor": "دكتور",
+  "assistant": "معيد",
+  "dahsboard": "شون طلبة"
 }

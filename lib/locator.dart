@@ -10,6 +10,8 @@ import 'screens/subjects/viewmodel/categories_view_model.dart';
 import 'screens/countries/viewmodel/choose_countries_view_model.dart';
 import 'screens/countries/viewmodel/countries_view_model.dart';
 import 'screens/countries/viewmodel/country_dialog_view_model.dart';
+import 'screens/system_users/viewmodel/system_users_dialog_view_model.dart';
+import 'screens/system_users/viewmodel/system_users_view_model.dart';
 import 'services/navigation_service.dart';
 
 GetIt locator = GetIt.instance;
@@ -26,6 +28,8 @@ void setupLocator() {
   locator.registerFactory(() => CategoryDialogViewModel());
   locator.registerFactory(() => CountryDialogViewModel());
   locator.registerFactory(() => ChooseCountriesViewModel());
+  locator.registerFactory(() => SystemUsersViewModel());
+  locator.registerFactory(() => SystemUsersDialogViewModel());
 
   locator<NavigationService>();
   locator<SharedPrefServices>();

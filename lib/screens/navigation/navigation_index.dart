@@ -1,2 +1,3 @@
-final CATEGORIES_INDEX = 0;
+const CATEGORIES_INDEX = 0;
+const SYSTEM_USERS_INDEX = 1;
 
