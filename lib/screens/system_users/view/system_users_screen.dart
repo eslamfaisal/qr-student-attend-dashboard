@@ -80,6 +80,10 @@ class SystemUsersScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              bold14Text(tr('id')),
+                              VerticalDivider(),
+                              bold14Text(tr('type')),
+                              VerticalDivider(),
                               bold14Text(tr('name')),
                               VerticalDivider(),
                               bold14Text(tr('email')),

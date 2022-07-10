@@ -29,6 +29,24 @@ class SystemUserWidget extends StatelessWidget {
                 flex: 1,
                 child: Center(
                   child: bold14Text(
+                    notNullString(model.id),
+                  ),
+                ),
+              ),
+              VerticalDivider(),
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: bold14Text(
+                    notNullString(model.type),
+                  ),
+                ),
+              ),
+              VerticalDivider(),
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: bold14Text(
                     notNullString(model.name),
                   ),
                 ),
