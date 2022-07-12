@@ -5,7 +5,7 @@ import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/locator.dart';
 import 'package:qr_attend/models/resources.dart';
 import 'package:qr_attend/models/status.dart';
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_dialog_view_model.dart';
 import 'package:qr_attend/services/navigation_service.dart';
 import 'package:qr_attend/utils/colors.dart';

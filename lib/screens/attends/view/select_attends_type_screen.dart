@@ -4,7 +4,7 @@ import 'package:qr_attend/screens/attends/model/attend_model.dart';
 import 'package:qr_attend/screens/attends/model/attends_type.dart';
 import 'package:qr_attend/screens/attends/viewmodel/select_attend_type_view_model.dart';
 import 'package:qr_attend/screens/login/model/system_user_model.dart';
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
@@ -146,6 +146,48 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                     ],
                   ),
                   heightSpace(16),
+
+                  Divider(
+                    color: blackColor,
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 200,
+                      ),
+                      ...viewModel.subjectAttendsDateList
+                          .map((date) {
+                        return Container(
+                          width: 150,
+                          alignment: Alignment.center,
+                          child: IntrinsicHeight(
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        date.date!,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                  const VerticalDivider(
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              )),
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                  Divider(
+                    color: blackColor,
+                  ),
+                  heightSpace(16),
                   if (viewModel.subjectAttendsDateList.isNotEmpty)
                     Expanded(
                       child: SingleChildScrollView(
@@ -156,43 +198,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 200,
-                                  ),
-                                  ...viewModel.subjectAttendsDateList
-                                      .map((date) {
-                                    return Container(
-                                      width: 150,
-                                      alignment: Alignment.center,
-                                      child: IntrinsicHeight(
-                                          child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Center(
-                                              child: Text(
-                                                date.date!,
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black),
-                                              ),
-                                            ),
-                                          ),
-                                          const VerticalDivider(
-                                            color: Colors.black,
-                                          ),
-                                        ],
-                                      )),
-                                    );
-                                  }).toList(),
-                                ],
-                              ),
-                              Divider(
-                                color: blackColor,
-                              ),
+
                               ...viewModel.allStudentUsersList.map((user) {
                                 return Column(
                                   mainAxisAlignment: MainAxisAlignment.start,

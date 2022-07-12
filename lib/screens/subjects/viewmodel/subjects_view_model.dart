@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/screens/base_view_model.dart';
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
 import 'package:qr_attend/services/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -44,7 +44,7 @@ class SubjectsViewModel extends BaseViewModel {
 
   void delete(int index) {
     try {
-      _firebaseServices.deleteCategory(currentAllSubjects[index].id!);
+      _firebaseServices.deleteSubject(currentAllSubjects[index].id!);
       currentAllSubjects.removeAt(index);
       setState(ViewState.Idle);
     } catch (e) {}

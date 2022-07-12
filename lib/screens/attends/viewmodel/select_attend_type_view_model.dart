@@ -5,7 +5,7 @@ import 'package:qr_attend/screens/attends/model/attend_model.dart';
 import 'package:qr_attend/screens/attends/model/attends_type.dart';
 import 'package:qr_attend/screens/base_view_model.dart';
 import 'package:qr_attend/screens/login/model/system_user_model.dart';
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
 import 'package:qr_attend/screens/system_users/viewmodel/system_users_view_model.dart';
 import 'package:qr_attend/services/firebase_services.dart';
 

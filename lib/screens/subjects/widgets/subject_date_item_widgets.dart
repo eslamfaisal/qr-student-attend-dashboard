@@ -1,22 +1,24 @@
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:qr_attend/screens/attends/model/attend_date_model.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
 import 'package:qr_attend/screens/subjects/view/subject_dialog_widget.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/subjects_dates_view_model.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
 import 'package:qr_attend/utils/extensions.dart';
 import 'package:qr_attend/utils/texts.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 
-class CategoryItemWidget extends StatelessWidget {
+class SubjectDateItemWidget extends StatelessWidget {
   final int index;
-  final SubjectsViewModel viewModel;
+  final SubjectsDatesViewModel viewModel;
 
-  CategoryItemWidget(this.index, this.viewModel);
+  SubjectDateItemWidget(this.index, this.viewModel);
 
   @override
   Widget build(BuildContext context) {
-    SubjectModel category = currentAllSubjects[index];
+    AttendDateModel category = viewModel.attendsDates[index];
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -29,11 +31,11 @@ class CategoryItemWidget extends StatelessWidget {
                 flex: 1,
                 child: Center(
                   child: bold14Text(
-                    notNullString(category.name),
+                    notNullString(category.date),
                   ),
                 ),
               ),
-              VerticalDivider(),
+              const VerticalDivider(),
               Expanded(
                 flex: 1,
                 child: Row(
@@ -94,7 +96,7 @@ class CategoryItemWidget extends StatelessWidget {
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'package:qr_attend/services/firebase_services.dart';
 import 'package:qr_attend/services/shared_pref_services.dart';
 import 'package:get_it/get_it.dart';
 
+import 'screens/subjects/viewmodel/subjects_dates_view_model.dart';
 import 'screens/subjects/viewmodel/subjects_view_model.dart';
 import 'screens/countries/viewmodel/choose_countries_view_model.dart';
 import 'screens/countries/viewmodel/countries_view_model.dart';
@@ -32,6 +33,7 @@ void setupLocator() {
   locator.registerFactory(() => ChooseCountriesViewModel());
   locator.registerFactory(() => SystemUsersDialogViewModel());
   locator.registerFactory(() => SelectAttendTypeViewModel());
+  locator.registerFactory(() => SubjectsDatesViewModel());
 
   locator<NavigationService>();
   locator<SharedPrefServices>();

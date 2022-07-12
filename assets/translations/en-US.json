@@ -202,5 +202,7 @@
   "assistant": "Assistant",
   "dahsboard": "Dashboard",
   "users": "Users",
-  "attend": "Attend"
+  "attends": "Attend",
+  "lectures": "Lectures",
+  "sections": "Section"
 }

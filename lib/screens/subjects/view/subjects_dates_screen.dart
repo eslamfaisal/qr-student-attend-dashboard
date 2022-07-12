@@ -1,25 +1,31 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:qr_attend/enums/screen_state.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/subjects_dates_view_model.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
 import 'package:qr_attend/screens/subjects/widgets/subject_item_widgets.dart';
+import 'package:qr_attend/screens/subjects/widgets/subject_date_item_widgets.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
 import 'package:qr_attend/utils/extensions.dart';
 import 'package:qr_attend/utils/texts.dart';
 import 'package:qr_attend/widgets/center_progress.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 
 import '../../base_screen.dart';
 import 'subject_dialog_widget.dart';
 
-class SubjectsScreen extends StatelessWidget {
-  const SubjectsScreen({Key? key}) : super(key: key);
+class SubjectsDatesScreen extends StatelessWidget {
+
+  final String type;
+  final SubjectModel subjectModel;
+  SubjectsDatesScreen(this.subjectModel,this.type, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen<SubjectsViewModel>(
+    return BaseScreen<SubjectsDatesViewModel>(
       onModelReady: (viewModel) {
-        viewModel.getSubjects();
+        viewModel.getSubjectsDates(subjectModel,type);
       },
       builder: (context, viewModel, _) {
         if (viewModel.state == ViewState.Busy) {
@@ -40,13 +46,13 @@ class SubjectsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              tr("subjects"),
+                              tr("attends"),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 24),
                             ),
                             Row(
                               children: [
-                                bold14Text(tr('add_new_subject')),
+                                bold14Text(tr('add')),
                                 widthSpace(4),
                                 const Icon(
                                   Icons.add_box_outlined,
@@ -78,11 +84,7 @@ class SubjectsScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                bold14Text(tr('title')),
-                                VerticalDivider(),
-                                bold14Text(tr('lectures')),
-                                VerticalDivider(),
-                                bold14Text(tr('sections')),
+                                bold14Text(tr('date')),
                                 VerticalDivider(),
                                 bold14Text(tr('action')),
                               ],
@@ -93,9 +95,9 @@ class SubjectsScreen extends StatelessWidget {
                                 : ListView.builder(
                                     shrinkWrap: true,
                                     physics: BouncingScrollPhysics(),
-                                    itemCount: currentAllSubjects.length,
+                                    itemCount: viewModel.attendsDates.length,
                                     itemBuilder: (context, index) {
-                                      return SubjectItemWidget(
+                                      return SubjectDateItemWidget(
                                           index, viewModel);
                                     },
                                   )

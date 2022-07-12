@@ -8,7 +8,7 @@ import 'package:qr_attend/models/resources.dart';
 import 'package:qr_attend/models/status.dart';
 import 'package:qr_attend/screens/attends/model/attend_model.dart';
 import 'package:qr_attend/screens/countries/model/country_model.dart';
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
 import 'package:qr_attend/services/shared_pref_services.dart';
 import 'package:qr_attend/utils/constants.dart';
 
@@ -135,9 +135,19 @@ class FirebaseServices {
         .then((value) => print('ad deleted'));
   }
 
-  void deleteCategory(String id) {
+  void deleteSubject(String id) {
     db
         .collection('subjects')
+        .doc(id)
+        .delete()
+        .then((value) => print('ad deleted'));
+  }
+
+  void deleteSubjectDate(String subjectId, String id) {
+    db
+        .collection('subjects')
+        .doc(subjectId)
+        .collection('attend_date')
         .doc(id)
         .delete()
         .then((value) => print('ad deleted'));
@@ -290,6 +300,28 @@ class FirebaseServices {
           }
         });
       }
+      return Resource(Status.SUCCESS, data: dates);
+    } on FirebaseAuthException catch (e) {
+      print('error ${e.toString()}');
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
+
+  Future<Resource<List<AttendDateModel>>> getSubjectAllAttendDates(
+      String subjectId, String type) async {
+    List<AttendDateModel> dates = [];
+    try {
+      await db
+          .collection("subjects")
+          .doc(subjectId)
+          .collection("attend_date")
+          .where("type", isEqualTo: type)
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          dates.add(AttendDateModel.fromJson(element.data()));
+        }
+      });
       return Resource(Status.SUCCESS, data: dates);
     } on FirebaseAuthException catch (e) {
       print('error ${e.toString()}');

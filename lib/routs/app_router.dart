@@ -1,14 +1,16 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:qr_attend/routs/routing_data.dart';
 import 'package:qr_attend/routs/routs_names.dart';
 import 'package:qr_attend/screens/attends/view/select_attends_type_screen.dart';
-import 'package:qr_attend/screens/subjects/view/subjects_screen.dart';
 import 'package:qr_attend/screens/login/view/login_screen.dart';
 import 'package:qr_attend/screens/navigation/navigation_index.dart';
 import 'package:qr_attend/screens/navigation/view/navigation_container.dart';
 import 'package:qr_attend/screens/not_found_screen/not_found_screen.dart';
 import 'package:qr_attend/screens/splash/splash_screen.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
+import 'package:qr_attend/screens/subjects/view/subjects_dates_screen.dart';
+import 'package:qr_attend/screens/subjects/view/subjects_screen.dart';
 import 'package:qr_attend/screens/system_users/view/system_users_screen.dart';
 
 class AppRouter {
@@ -42,6 +44,14 @@ class AppRouter {
       case RouteName.SELECT_ATTENDS_TYPE_SCREEN:
         return _getPageRoute(
             NavigationContainer(const SelectAttendsTypeScreen(), ATTENDS_INDEX),
+            settings);
+
+      case RouteName.SUBJECT_ATTENDS_SCREEN:
+        SubjectModel subject = settings.arguments as SubjectModel;
+        String type = routingData['type'];
+        return _getPageRoute(
+            NavigationContainer(
+                SubjectsDatesScreen(subject, type), ATTENDS_INDEX),
             settings);
 
       default:

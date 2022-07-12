@@ -1,6 +1,6 @@
 
 
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/screens/subjects/model/subject_model.dart';
 import 'package:qr_attend/screens/countries/model/country_model.dart';
 
 import '../screens/login/model/system_user_model.dart';

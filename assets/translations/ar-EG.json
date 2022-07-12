@@ -202,5 +202,7 @@
   "assistant": "معيد",
   "dahsboard": "شون طلبة",
   "users": "المستخدمين",
-  "attend": "الحضور"
+  "attends": "الحضور",
+  "lectures": "المحاضرات",
+  "sections": "السكاشن"
 }
