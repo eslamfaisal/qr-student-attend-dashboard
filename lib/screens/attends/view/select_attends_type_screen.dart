@@ -145,41 +145,46 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                       widthSpace(16),
                     ],
                   ),
-                  heightSpace(16),
-
                   Divider(
                     color: blackColor,
                   ),
                   Row(
                     children: [
-                      const SizedBox(
+                      Container(
                         width: 200,
+                        height: 50,
                       ),
-                      ...viewModel.subjectAttendsDateList
-                          .map((date) {
-                        return Container(
-                          width: 150,
-                          alignment: Alignment.center,
-                          child: IntrinsicHeight(
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        date.date!,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
+                      VerticalDivider(
+                        color: blackColor,
+                      ),
+                      ...viewModel.subjectAttendsDateList.map((date) {
+                        return Row(
+                          children: [
+                            IntrinsicHeight(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 150,
+                                      alignment: Alignment.center,
+                                      child: Expanded(
+                                        child: Center(
+                                          child: Text(
+                                            date.date!,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const VerticalDivider(
-                                    color: Colors.black,
-                                  ),
-                                ],
-                              )),
+                                    const VerticalDivider(
+                                      color: Colors.black,
+                                    ),
+                                  ],
+                                ))
+
+                          ],
                         );
                       }).toList(),
                     ],
@@ -198,7 +203,6 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-
                               ...viewModel.allStudentUsersList.map((user) {
                                 return Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -208,22 +212,18 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                                     IntrinsicHeight(
                                       child: Row(
                                         children: [
-                                          SizedBox(
-                                            width: 170,
+                                          Container(
+                                            alignment: Alignment.centerRight,
+                                            width: 200,
                                             height: 60,
-                                            child: Container(
-                                              alignment: Alignment.centerRight,
-                                              child: Text(
-                                                user.name!,
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black),
-                                              ),
+                                            child: Text(
+                                              user.name!,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black),
                                             ),
                                           ),
-                                          ...viewModel.allAttendsList.map(
-                                              (attend) => AttendCheckBox(
-                                                  viewModel, user, attend)),
+                                          ...getStudendAttends(viewModel, user),
                                           VerticalDivider(
                                             color: blackColor,
                                           ),
@@ -249,12 +249,29 @@ class SelectAttendsTypeScreen extends StatelessWidget {
       },
     );
   }
+
+  Iterable<Widget> getStudendAttends(
+      SelectAttendTypeViewModel viewModel, SystemUserModel user) {
+    List<Widget> widgets = [];
+    int index = 0;
+    viewModel.subjectAttendsDateList.forEach((date) {
+      try {
+        widgets.add(
+            AttendCheckBox(viewModel, user, viewModel.allAttendsList[index]));
+      } catch (e) {
+        print(e);
+        widgets.add(AttendCheckBox(viewModel, user, null));
+      }
+      index++;
+    });
+    return widgets;
+  }
 }
 
 class AttendCheckBox extends StatefulWidget {
   final SelectAttendTypeViewModel viewModel;
   final SystemUserModel user;
-  final AttendModel attend;
+  final AttendModel? attend;
 
   AttendCheckBox(this.viewModel, this.user, this.attend);
 
@@ -263,12 +280,14 @@ class AttendCheckBox extends StatefulWidget {
 }
 
 class _AttendCheckBoxState extends State<AttendCheckBox> {
-
   var isSelected = false;
+
   @override
   void initState() {
     super.initState();
-    calculateSelection();
+    if (widget.attend != null) {
+      calculateSelection();
+    }
   }
 
   @override
@@ -292,15 +311,13 @@ class _AttendCheckBoxState extends State<AttendCheckBox> {
   }
 
   void calculateSelection() {
-
     widget.viewModel.allAttendsList.forEach((attend) {
       if (attend.userId == widget.user.id &&
-          attend.date == widget.attend.date &&
-          attend.attendType == widget.attend.attendType) {
+          attend.date == widget.attend!.date &&
+          attend.attendType == widget.attend!.attendType) {
         isSelected = true;
       }
     });
     setState(() {});
   }
-
 }
