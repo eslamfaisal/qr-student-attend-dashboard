@@ -288,7 +288,9 @@ class _AttendCheckBoxState extends State<AttendCheckBox> {
   void calculateSelection() {
 
     widget.viewModel.allAttendsList.forEach((attend) {
-      if (attend.userId == widget.user.id && attend.date == widget.attend.date) {
+      if (attend.userId == widget.user.id &&
+          attend.date == widget.attend.date &&
+          attend.attendType == widget.attend.attendType) {
         isSelected = true;
       }
     });

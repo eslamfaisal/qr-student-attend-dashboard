@@ -37,6 +37,9 @@ class SelectAttendTypeViewModel extends BaseViewModel {
   }
 
   getSubjectAttendsAndItsDate() async {
+    subjectAttendsDateList.clear();
+    allAttendsList.clear();
+
     var attends = await _firebaseServices.getAllAttends(
       selectedSubjectModel!.id!,
       selectedAttendType.name,
@@ -68,12 +71,13 @@ class SelectAttendTypeViewModel extends BaseViewModel {
 
   void setSelectedAttend(AttendType? value) {
     selectedAttendType = value!;
+    setState(ViewState.Idle);
     getSubjectAttendsAndItsDate();
   }
 
   void setSelectedSectionNumber(int? value) {
     selectedSectionNumber = value!;
-    setState(ViewState.Idle);
+
     getSubjectAttendsAndItsDate();
   }
 
