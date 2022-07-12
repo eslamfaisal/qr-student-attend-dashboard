@@ -1,5 +1,6 @@
 import 'package:qr_attend/routs/routing_data.dart';
 import 'package:qr_attend/routs/routs_names.dart';
+import 'package:qr_attend/screens/attends/view/select_attends_type_screen.dart';
 import 'package:qr_attend/screens/subjects/view/subjects_screen.dart';
 import 'package:qr_attend/screens/login/view/login_screen.dart';
 import 'package:qr_attend/screens/navigation/navigation_index.dart';
@@ -33,9 +34,14 @@ class AppRouter {
             NavigationContainer(const SubjectsScreen(), CATEGORIES_INDEX),
             settings);
 
-      case RouteName.COUNTIRES_SCREEN:
+      case RouteName.USERS_SCREEN:
         return _getPageRoute(
             NavigationContainer(const SystemUsersScreen(), SYSTEM_USERS_INDEX),
+            settings);
+
+      case RouteName.SELECT_ATTENDS_TYPE_SCREEN:
+        return _getPageRoute(
+            NavigationContainer(const SelectAttendsTypeScreen(), ATTENDS_INDEX),
             settings);
 
       default:

@@ -150,7 +150,21 @@ class _NavigationContainerState extends State<NavigationContainer>
               ? Colors.deepOrange[200]!
               : Colors.white,
           () {
-            locator<NavigationService>().navigateTo(RouteName.COUNTIRES_SCREEN);
+            locator<NavigationService>().navigateTo(RouteName.USERS_SCREEN);
+          },
+          Icon(
+            Icons.category,
+            color: primaryColor,
+            size: 26,
+          ),
+        ),
+        DrawerItemWidget(
+          tr("attends"),
+          tabController!.index == ATTENDS_INDEX
+              ? Colors.deepOrange[200]!
+              : Colors.white,
+          () {
+            locator<NavigationService>().navigateTo(RouteName.SELECT_ATTENDS_TYPE_SCREEN);
           },
           Icon(
             Icons.category,
