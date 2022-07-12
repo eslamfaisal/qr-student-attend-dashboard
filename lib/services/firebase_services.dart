@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:qr_attend/models/resources.dart';
 import 'package:qr_attend/models/status.dart';
+import 'package:qr_attend/screens/attends/model/attend_model.dart';
 import 'package:qr_attend/screens/subjects/model/category_model.dart';
 import 'package:qr_attend/screens/countries/model/country_model.dart';
 import 'package:qr_attend/services/shared_pref_services.dart';
@@ -222,6 +223,20 @@ class FirebaseServices {
     }
   }
 
+  Future<Resource<List<AttendModel>>> getAllAttends() async {
+    List<AttendModel> systemUsers = [];
+    try {
+      await db.collection("attends").get().then((value) {
+        for (var element in value.docs) {
+          systemUsers.add(AttendModel.fromJson(element.data()));
+        }
+      });
+      return Resource(Status.SUCCESS, data: systemUsers);
+    } on FirebaseAuthException catch (e) {
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
+
   Future<Resource<UserCredential>> reLogin() async {
     try {
       await auth.signOut();
@@ -241,4 +256,5 @@ class FirebaseServices {
         .delete()
         .then((value) => print('deleted'));
   }
+
 }

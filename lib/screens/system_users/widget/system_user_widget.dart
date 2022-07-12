@@ -17,7 +17,7 @@ class SystemUserWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemUserModel model = viewModel.systemUsers[index];
+    SystemUserModel model = systemUsers[index];
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

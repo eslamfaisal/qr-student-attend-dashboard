@@ -92,12 +92,12 @@ class SystemUsersScreen extends StatelessWidget {
                             ],
                           ),
                           Divider(),
-                          viewModel.systemUsers.length == 0
+                          systemUsers.isEmpty
                               ? Container()
                               : ListView.builder(
                                   shrinkWrap: true,
                                   physics: BouncingScrollPhysics(),
-                                  itemCount: viewModel.systemUsers.length,
+                                  itemCount: systemUsers.length,
                                   itemBuilder: (context, index) {
                                     return SystemUserWidget(
                                       viewModel: viewModel,

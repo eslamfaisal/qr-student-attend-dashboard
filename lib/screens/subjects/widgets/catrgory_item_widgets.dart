@@ -1,6 +1,6 @@
 import 'package:qr_attend/screens/subjects/model/category_model.dart';
 import 'package:qr_attend/screens/subjects/view/subject_dialog_widget.dart';
-import 'package:qr_attend/screens/subjects/viewmodel/categories_view_model.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
 import 'package:qr_attend/utils/extensions.dart';
@@ -16,7 +16,7 @@ class CategoryItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SubjectModel category = currentAllCategories[index];
+    SubjectModel category = currentAllSubjects[index];
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -48,7 +48,7 @@ class CategoryItemWidget extends StatelessWidget {
                         builder: (_) => AlertDialog(
                           content: SubjectDialogWidget(
                             isNewCategory: false,
-                            categoryModel: currentAllCategories[index],
+                            categoryModel: currentAllSubjects[index],
                           ),
                         ),
                       );

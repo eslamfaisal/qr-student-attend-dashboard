@@ -200,5 +200,6 @@
   "student": "Student",
   "doctor": "Doctor",
   "assistant": "Assistant",
-  "dahsboard": "Dashboard"
+  "dahsboard": "Dashboard",
+  "users": "Users"
 }

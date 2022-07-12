@@ -7,16 +7,21 @@ import 'package:qr_attend/services/firebase_services.dart';
 
 import '../../../locator.dart';
 
+List<SystemUserModel> systemUsers = [];
+
 class SystemUsersViewModel extends BaseViewModel {
-  List<SystemUserModel> systemUsers = [];
   final _firebaseServices = locator<FirebaseServices>();
 
   void getSystemUsers() async {
-    setState(ViewState.Busy);
+    if (systemUsers.isNotEmpty) {
+      setState(ViewState.Idle);
+      return;
+    }
     Resource<List<SystemUserModel>> response =
         await _firebaseServices.getSystemUsers();
     switch (response.status) {
       case Status.SUCCESS:
+        systemUsers.clear();
         systemUsers = response.data!;
         break;
       case Status.ERROR:

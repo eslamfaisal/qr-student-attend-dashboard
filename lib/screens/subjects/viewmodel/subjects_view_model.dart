@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../locator.dart';
 
-List<SubjectModel> currentAllCategories = [];
+List<SubjectModel> currentAllSubjects = [];
 StreamSubscription? snapshot;
 
 class SubjectsViewModel extends BaseViewModel {
@@ -27,7 +27,7 @@ class SubjectsViewModel extends BaseViewModel {
         .snapshots()
         .listen((event) {
       print('getCategories snapshot = ${event.docs.length}');
-      currentAllCategories =
+      currentAllSubjects =
           event.docs.map((doc) => SubjectModel.fromJson(doc.data())).toList();
       setState(ViewState.Idle);
     });
@@ -36,7 +36,7 @@ class SubjectsViewModel extends BaseViewModel {
   void initOldSelectedCategories() {
     oldSelectedCategories.clear();
     for (var old in oldSelectedCategories) {
-      selectedCategoriesList.add(currentAllCategories
+      selectedCategoriesList.add(currentAllSubjects
           .where((country) => country.id! == old.id!)
           .first);
     }
@@ -44,8 +44,8 @@ class SubjectsViewModel extends BaseViewModel {
 
   void delete(int index) {
     try {
-      _firebaseServices.deleteCategory(currentAllCategories[index].id!);
-      currentAllCategories.removeAt(index);
+      _firebaseServices.deleteCategory(currentAllSubjects[index].id!);
+      currentAllSubjects.removeAt(index);
       setState(ViewState.Idle);
     } catch (e) {}
   }
@@ -57,7 +57,7 @@ class SubjectsViewModel extends BaseViewModel {
       selectedCategoriesList.add(country);
     }
 
-    if (selectedCategoriesList.length == currentAllCategories.length) {
+    if (selectedCategoriesList.length == currentAllSubjects.length) {
       allSelected = true;
     } else {
       allSelected = false;
@@ -71,7 +71,7 @@ class SubjectsViewModel extends BaseViewModel {
     allSelected = value ?? false;
     selectedCategoriesList.clear();
     if (allSelected) {
-      selectedCategoriesList.addAll(currentAllCategories);
+      selectedCategoriesList.addAll(currentAllSubjects);
     }
     setState(ViewState.Idle);
   }

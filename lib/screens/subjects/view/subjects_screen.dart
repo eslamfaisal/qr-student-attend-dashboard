@@ -1,5 +1,5 @@
 import 'package:qr_attend/enums/screen_state.dart';
-import 'package:qr_attend/screens/subjects/viewmodel/categories_view_model.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
 import 'package:qr_attend/screens/subjects/widgets/catrgory_item_widgets.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
@@ -84,12 +84,12 @@ class SubjectsScreen extends StatelessWidget {
                               ],
                             ),
                             Divider(),
-                            currentAllCategories == null
+                            currentAllSubjects == null
                                 ? Container()
                                 : ListView.builder(
                                     shrinkWrap: true,
                                     physics: BouncingScrollPhysics(),
-                                    itemCount: currentAllCategories.length,
+                                    itemCount: currentAllSubjects.length,
                                     itemBuilder: (context, index) {
                                       return CategoryItemWidget(
                                           index, viewModel);

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:qr_attend/routs/routs_names.dart';
+import 'package:qr_attend/screens/system_users/viewmodel/system_users_view_model.dart';
 import 'package:qr_attend/services/navigation_service.dart';
 import 'package:qr_attend/utils/constants.dart';
 import 'package:qr_attend/utils/shared_preferences_constants.dart';
@@ -21,6 +22,8 @@ class SplashViewModel extends BaseViewModel {
         Map<String, dynamic> user = await jsonDecode(userJsonString);
         SystemUserModel userEvent = SystemUserModel.fromJson(user);
         currentLoggedInUserData = userEvent;
+
+        getSystemdInitialData();
         locator<NavigationService>()
             .navigateToAndClearStack(RouteName.SUBJECTS_SCREEN);
       } else {
@@ -29,5 +32,9 @@ class SplashViewModel extends BaseViewModel {
     } catch (e) {
       locator<NavigationService>().navigateToAndClearStack(RouteName.LOGIN);
     }
+  }
+
+  void getSystemdInitialData() {
+    locator<SystemUsersViewModel>().getSystemUsers();
   }
 }
