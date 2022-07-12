@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_attend/screens/attends/model/attend_model.dart';
 import 'package:qr_attend/screens/attends/model/attends_type.dart';
 import 'package:qr_attend/screens/attends/viewmodel/select_attend_type_view_model.dart';
+import 'package:qr_attend/screens/login/model/system_user_model.dart';
 import 'package:qr_attend/screens/subjects/model/category_model.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
 import 'package:qr_attend/utils/colors.dart';
@@ -191,7 +193,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                               Divider(
                                 color: blackColor,
                               ),
-                              ...viewModel.allStudentUsersList.map((date) {
+                              ...viewModel.allStudentUsersList.map((user) {
                                 return Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,30 +208,16 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                                             child: Container(
                                               alignment: Alignment.centerRight,
                                               child: Text(
-                                                date.name!,
+                                                user.name!,
                                                 style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black),
                                               ),
                                             ),
                                           ),
-                                          ...viewModel.allAttendsList
-                                              .map((e) => Row(
-                                                    children: [
-                                                      VerticalDivider(
-                                                        color: blackColor,
-                                                      ),
-                                                      Container(
-                                                        width: 150,
-                                                        child: Center(
-                                                          child: Checkbox(
-                                                            value: true,
-                                                            onChanged: (_) {},
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
+                                          ...viewModel.allAttendsList.map(
+                                              (attend) => AttendCheckBox(
+                                                  viewModel, user, attend)),
                                           VerticalDivider(
                                             color: blackColor,
                                           ),
@@ -255,4 +243,56 @@ class SelectAttendsTypeScreen extends StatelessWidget {
       },
     );
   }
+}
+
+class AttendCheckBox extends StatefulWidget {
+  final SelectAttendTypeViewModel viewModel;
+  final SystemUserModel user;
+  final AttendModel attend;
+
+  AttendCheckBox(this.viewModel, this.user, this.attend);
+
+  @override
+  State<AttendCheckBox> createState() => _AttendCheckBoxState();
+}
+
+class _AttendCheckBoxState extends State<AttendCheckBox> {
+
+  var isSelected = false;
+  @override
+  void initState() {
+    super.initState();
+    calculateSelection();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        VerticalDivider(
+          color: blackColor,
+        ),
+        Container(
+          width: 150,
+          child: Center(
+            child: Checkbox(
+              value: isSelected,
+              onChanged: (_) {},
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void calculateSelection() {
+
+    widget.viewModel.allAttendsList.forEach((attend) {
+      if (attend.userId == widget.user.id && attend.date == widget.attend.date) {
+        isSelected = true;
+      }
+    });
+    setState(() {});
+  }
+
 }
