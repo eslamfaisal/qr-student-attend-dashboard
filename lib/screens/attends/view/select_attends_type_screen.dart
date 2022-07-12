@@ -220,7 +220,9 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                                                   color: Colors.black),
                                             ),
                                           ),
-                                          ...getStudendAttends(viewModel, user),
+                                          ...viewModel.allAttendsList.map((attend) =>
+                                              AttendCheckBox(
+                                                  viewModel, user, attend)),
                                           VerticalDivider(
                                             color: blackColor,
                                           ),
