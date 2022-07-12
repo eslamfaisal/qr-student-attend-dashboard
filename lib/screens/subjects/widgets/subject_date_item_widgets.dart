@@ -1,20 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_attend/screens/attends/model/attend_date_model.dart';
-import 'package:qr_attend/screens/subjects/model/subject_model.dart';
-import 'package:qr_attend/screens/subjects/view/subject_dialog_widget.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_dates_view_model.dart';
-import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
 import 'package:qr_attend/utils/extensions.dart';
 import 'package:qr_attend/utils/texts.dart';
 
 class SubjectDateItemWidget extends StatelessWidget {
+  final String type;
   final int index;
   final SubjectsDatesViewModel viewModel;
 
-  SubjectDateItemWidget(this.index, this.viewModel);
+  SubjectDateItemWidget(this.type, this.index, this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,6 @@ class SubjectDateItemWidget extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(
                 flex: 1,
@@ -36,26 +33,22 @@ class SubjectDateItemWidget extends StatelessWidget {
                 ),
               ),
               const VerticalDivider(),
+              if(type == 'Section')
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: bold14Text(
+                    notNullString(category.sectionNumber),
+                  ),
+                ),
+              ),
+              if(type == 'Section')
+              const VerticalDivider(),
               Expanded(
                 flex: 1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.edit,
-                      color: primaryColor,
-                    ).onTap(() async {
-                      await showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          content: SubjectDialogWidget(
-                            isNewCategory: false,
-                            categoryModel: currentAllSubjects[index],
-                          ),
-                        ),
-                      );
-                    }),
-                    widthSpace(8),
                     Icon(
                       Icons.delete,
                       color: primaryColor,

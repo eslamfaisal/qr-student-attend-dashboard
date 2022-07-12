@@ -8,6 +8,7 @@ class AttendDateModel {
     this.date,
     this.id,
     this.sectionNumber,
+    this.type,
   });
 
   AttendDateModel.fromJson(Map<String, dynamic> json) {

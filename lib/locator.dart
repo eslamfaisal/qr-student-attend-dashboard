@@ -1,4 +1,5 @@
 import 'package:qr_attend/screens/attends/viewmodel/select_attend_type_view_model.dart';
+import 'package:qr_attend/screens/subjects/viewmodel/subjects_date_dialog_view_model.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_dialog_view_model.dart';
 import 'package:qr_attend/screens/home/viewmodel/home_view_model.dart';
 import 'package:qr_attend/screens/login/viewmodel/login_view_model.dart';
@@ -34,6 +35,7 @@ void setupLocator() {
   locator.registerFactory(() => SystemUsersDialogViewModel());
   locator.registerFactory(() => SelectAttendTypeViewModel());
   locator.registerFactory(() => SubjectsDatesViewModel());
+  locator.registerFactory(() => CategoryDateDialogViewModel());
 
   locator<NavigationService>();
   locator<SharedPrefServices>();

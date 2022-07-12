@@ -1,4 +1,4 @@
-const CATEGORIES_INDEX = 0;
+const SUBJECTS_INDEX = 0;
 const SYSTEM_USERS_INDEX = 1;
 const ATTENDS_INDEX = 2;
 

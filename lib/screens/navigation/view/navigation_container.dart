@@ -132,7 +132,7 @@ class _NavigationContainerState extends State<NavigationContainer>
       children: <Widget>[
         DrawerItemWidget(
           tr("subjects"),
-          tabController!.index == CATEGORIES_INDEX
+          tabController!.index == SUBJECTS_INDEX
               ? Colors.deepOrange[200]!
               : Colors.white,
           () {

@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/screens/subjects/model/subject_model.dart';
+import 'package:qr_attend/screens/subjects/view/subject_date_dialog_widget.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_dates_view_model.dart';
 import 'package:qr_attend/screens/subjects/viewmodel/subjects_view_model.dart';
-import 'package:qr_attend/screens/subjects/widgets/subject_item_widgets.dart';
 import 'package:qr_attend/screens/subjects/widgets/subject_date_item_widgets.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
@@ -13,19 +13,19 @@ import 'package:qr_attend/utils/texts.dart';
 import 'package:qr_attend/widgets/center_progress.dart';
 
 import '../../base_screen.dart';
-import 'subject_dialog_widget.dart';
 
 class SubjectsDatesScreen extends StatelessWidget {
-
   final String type;
   final SubjectModel subjectModel;
-  SubjectsDatesScreen(this.subjectModel,this.type, {Key? key}) : super(key: key);
+
+  SubjectsDatesScreen(this.subjectModel, this.type, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen<SubjectsDatesViewModel>(
       onModelReady: (viewModel) {
-        viewModel.getSubjectsDates(subjectModel,type);
+        viewModel.getSubjectsDates(subjectModel, type);
       },
       builder: (context, viewModel, _) {
         if (viewModel.state == ViewState.Busy) {
@@ -61,13 +61,19 @@ class SubjectsDatesScreen extends StatelessWidget {
                               ],
                             ).onTap(
                               () async {
-                                showDialog(
+                                var attend = await showDialog(
                                   context: context,
                                   builder: (_) => AlertDialog(
-                                    content: SubjectDialogWidget(
-                                        isNewCategory: true),
+                                    content: SubjectDateDialogWidget(
+                                      attendType: type,
+                                      subjectID: subjectModel.id,
+                                    ),
                                   ),
                                 );
+
+                                if (attend != null) {
+                                  viewModel.addNewAttendDate(attend);
+                                }
                               },
                             ),
                           ],
@@ -84,8 +90,10 @@ class SubjectsDatesScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                bold14Text(tr('date')),
+                                bold14Text(tr(type)),
                                 VerticalDivider(),
+                                if (type == 'Section') bold14Text(tr('رقم السكشن')),
+                                if (type == 'Section') VerticalDivider(),
                                 bold14Text(tr('action')),
                               ],
                             ),
@@ -98,7 +106,10 @@ class SubjectsDatesScreen extends StatelessWidget {
                                     itemCount: viewModel.attendsDates.length,
                                     itemBuilder: (context, index) {
                                       return SubjectDateItemWidget(
-                                          index, viewModel);
+                                        type,
+                                        index,
+                                        viewModel,
+                                      );
                                     },
                                   )
                           ],

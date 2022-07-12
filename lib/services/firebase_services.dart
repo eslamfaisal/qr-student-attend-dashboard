@@ -180,6 +180,19 @@ class FirebaseServices {
       return Resource(Status.ERROR, errorMessage: e.toString());
     }
   }
+  Future<Resource<String>> createAttendDate(AttendDateModel attend, String subjectId) async {
+    try {
+      await db
+          .collection('subjects')
+          .doc(subjectId)
+          .collection('attend_date')
+          .doc(attend.id)
+          .set(attend.toJson());
+      return Resource(Status.SUCCESS, data: tr('created_successfully'));
+    } catch (e) {
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
 
   Future<Resource<String>> createNewCountry(CountryModel categoryModel) async {
     try {

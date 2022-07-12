@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/models/status.dart';
 import 'package:qr_attend/screens/attends/model/attend_date_model.dart';
@@ -17,12 +16,20 @@ class SubjectsDatesViewModel extends BaseViewModel {
   final _firebaseServices = locator<FirebaseServices>();
   SubjectModel? selectedSubject;
 
+  var type = '';
+
   getSubjectsDates(SubjectModel subject, String type) async {
     selectedSubject = subject;
+    type = type;
     var response =
         await _firebaseServices.getSubjectAllAttendDates(subject.id!, type);
     if (response.status == Status.SUCCESS) {
       attendsDates = response.data!;
+
+      if (type == 'Section') {
+        attendsDates
+            .sort((a, b) => a.sectionNumber!.compareTo(b.sectionNumber!));
+      }
     }
     setState(ViewState.Idle);
   }
@@ -36,5 +43,8 @@ class SubjectsDatesViewModel extends BaseViewModel {
     } catch (e) {}
   }
 
-
+  void addNewAttendDate(AttendDateModel attendDateModel) {
+    attendsDates.add(attendDateModel);
+    setState(ViewState.Idle);
+  }
 }

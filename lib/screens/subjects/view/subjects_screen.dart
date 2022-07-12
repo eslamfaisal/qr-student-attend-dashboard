@@ -80,9 +80,9 @@ class SubjectsScreen extends StatelessWidget {
                               children: [
                                 bold14Text(tr('title')),
                                 VerticalDivider(),
-                                bold14Text(tr('lectures')),
+                                bold14Text(tr('تواريخ المحاضرات')),
                                 VerticalDivider(),
-                                bold14Text(tr('sections')),
+                                bold14Text(tr('تواريخ السكاشن')),
                                 VerticalDivider(),
                                 bold14Text(tr('action')),
                               ],

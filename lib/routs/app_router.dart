@@ -33,7 +33,7 @@ class AppRouter {
 
       case RouteName.SUBJECTS_SCREEN:
         return _getPageRoute(
-            NavigationContainer(const SubjectsScreen(), CATEGORIES_INDEX),
+            NavigationContainer(const SubjectsScreen(), SUBJECTS_INDEX),
             settings);
 
       case RouteName.USERS_SCREEN:
@@ -51,7 +51,7 @@ class AppRouter {
         String type = routingData['type'];
         return _getPageRoute(
             NavigationContainer(
-                SubjectsDatesScreen(subject, type), ATTENDS_INDEX),
+                SubjectsDatesScreen(subject, type), SUBJECTS_INDEX),
             settings);
 
       default:
