@@ -162,28 +162,25 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                           children: [
                             IntrinsicHeight(
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Container(
-                                      width: 150,
-                                      alignment: Alignment.center,
-                                      child: Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            date.date!,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                  width: 150,
+                                  alignment: Alignment.center,
+                                  child: Center(
+                                    child: Text(
+                                      date.date!,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
                                     ),
-                                    const VerticalDivider(
-                                      color: Colors.black,
-                                    ),
-                                  ],
-                                ))
-
+                                  ),
+                                ),
+                                const VerticalDivider(
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ))
                           ],
                         );
                       }).toList(),
@@ -256,8 +253,12 @@ class SelectAttendsTypeScreen extends StatelessWidget {
     int index = 0;
     viewModel.subjectAttendsDateList.forEach((date) {
       try {
-        widgets.add(
-            AttendCheckBox(viewModel, user, viewModel.allAttendsList[index]));
+        if (viewModel.allAttendsList.length == index - 1) {
+          widgets.add(
+              AttendCheckBox(viewModel, user, viewModel.allAttendsList[index]));
+        } else {
+          widgets.add(AttendCheckBox(viewModel, user, null));
+        }
       } catch (e) {
         print(e);
         widgets.add(AttendCheckBox(viewModel, user, null));
