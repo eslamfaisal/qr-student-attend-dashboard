@@ -223,16 +223,39 @@ class FirebaseServices {
     }
   }
 
-  Future<Resource<List<AttendModel>>> getAllAttends() async {
-    List<AttendModel> systemUsers = [];
+  Future<Resource<List<AttendModel>>> getAllAttends(
+      String subjectID, String type, String section) async {
+    List<AttendModel> attends = [];
+    print('getAllAttends: $subjectID, $type, $section');
     try {
-      await db.collection("attends").get().then((value) {
-        for (var element in value.docs) {
-          systemUsers.add(AttendModel.fromJson(element.data()));
-        }
-      });
-      return Resource(Status.SUCCESS, data: systemUsers);
-    } on FirebaseAuthException catch (e) {
+      if (type == 'Section') {
+        await db
+            .collection("attends")
+            .where('subject_id', isEqualTo: subjectID)
+            .where('attend_type', isEqualTo: type)
+            .where('section_number', isEqualTo: section)
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            attends.add(AttendModel.fromJson(element.data()));
+          }
+        });
+      } else {
+        await db
+            .collection("attends")
+            .where('subject_id', isEqualTo: subjectID)
+            .where('attend_type', isEqualTo: type)
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            attends.add(AttendModel.fromJson(element.data()));
+          }
+        });
+      }
+      print('attends: ${attends.length}');
+      return Resource(Status.SUCCESS, data: attends);
+    } on Exception catch (e) {
+      print('errrrorr ${e.toString()}');
       return Resource(Status.ERROR, errorMessage: e.toString());
     }
   }

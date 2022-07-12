@@ -30,17 +30,30 @@ class SelectAttendTypeViewModel extends BaseViewModel {
 
   initSelection() {
     selectedSubjectModel = currentAllSubjects[0];
-    systemUsers.where((user) => user.type == 'student').toList();
+    allStudentUsersList =
+        systemUsers.where((user) => user.type == 'student').toList();
     setState(ViewState.Busy);
-
+    getSubjectAttendsAndItsDate();
   }
 
-  getSubjectAttendsDate() async {
+  getSubjectAttendsAndItsDate() async {
+    var attends = await _firebaseServices.getAllAttends(
+      selectedSubjectModel!.id!,
+      selectedAttendType.name,
+      selectedSectionNumber.toString(),
+    );
+    if (attends.status == Status.SUCCESS) {
+      allAttendsList = attends.data!;
+      print('allAttendsList = $allAttendsList');
+    }
+
     print('getSubjectAttendsDate = ${selectedAttendType.name}');
-    var result = await _firebaseServices.getSubjectAttendDates(
-        selectedSubjectModel!.id!, selectedAttendType.name, selectedSectionNumber);
-    if (result.status == Status.SUCCESS) {
-      subjectAttendsDateList = result.data!;
+    var attendsDates = await _firebaseServices.getSubjectAttendDates(
+        selectedSubjectModel!.id!,
+        selectedAttendType.name,
+        selectedSectionNumber);
+    if (attendsDates.status == Status.SUCCESS) {
+      subjectAttendsDateList = attendsDates.data!;
       print('subjectAttendsDateList = $subjectAttendsDateList');
     }
 
@@ -50,23 +63,19 @@ class SelectAttendTypeViewModel extends BaseViewModel {
   void setSelectedSubject(SubjectModel? value) {
     selectedSubjectModel = value;
     setState(ViewState.Idle);
-    getSubjectAttendsDate();
+    getSubjectAttendsAndItsDate();
   }
 
   void setSelectedAttend(AttendType? value) {
     selectedAttendType = value!;
-    getSubjectAttendsDate();
+    getSubjectAttendsAndItsDate();
   }
 
   void setSelectedSectionNumber(int? value) {
     selectedSectionNumber = value!;
     setState(ViewState.Idle);
-    getSubjectAttendsDate();
+    getSubjectAttendsAndItsDate();
   }
 
-
-  void showDate() {
-
-  }
-
+  void showDate() {}
 }
