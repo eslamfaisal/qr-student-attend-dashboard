@@ -1,6 +1,7 @@
 import 'package:qr_attend/enums/screen_state.dart';
 import 'package:qr_attend/models/status.dart';
 import 'package:qr_attend/screens/attends/model/attend_model.dart';
+import 'package:qr_attend/screens/attends/model/attends_type.dart';
 import 'package:qr_attend/screens/base_view_model.dart';
 import 'package:qr_attend/screens/login/model/system_user_model.dart';
 import 'package:qr_attend/screens/subjects/model/category_model.dart';
@@ -17,11 +18,17 @@ class SelectAttendTypeViewModel extends BaseViewModel {
   List<AttendModel> allAttendsList = [];
 
   SubjectModel? selectedSubjectModel;
+  int selectedSectionNumber = 1;
+  var sectionsNumbers = [1, 2, 3];
+
+  AttendType selectedAttendType = AttendType.Lecture;
+  var attendTypes = [AttendType.Lecture, AttendType.Section];
 
   initSelection() {
     selectedSubjectModel = currentAllSubjects[0];
     setState(ViewState.Busy);
   }
+
   getAllAttends() async {
     systemUsers.where((user) => user.type == 'student').toList();
     var result = await _firebaseServices.getAllAttends();
@@ -32,8 +39,18 @@ class SelectAttendTypeViewModel extends BaseViewModel {
     setState(ViewState.Idle);
   }
 
-  void setSelctedSubject(SubjectModel? value) {
+  void setSelectedSubject(SubjectModel? value) {
     selectedSubjectModel = value;
+    setState(ViewState.Idle);
+  }
+
+  void setSelectedAttend(AttendType? value) {
+    selectedAttendType = value!;
+    setState(ViewState.Idle);
+  }
+
+  void setSelectedSectionNumber(int? value) {
+    selectedSectionNumber = value!;
     setState(ViewState.Idle);
   }
 }
