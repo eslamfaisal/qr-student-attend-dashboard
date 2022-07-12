@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:qr_attend/models/resources.dart';
-import 'package:qr_attend/models/status.dart';
-import 'package:qr_attend/screens/attends/model/attend_model.dart';
-import 'package:qr_attend/screens/subjects/model/category_model.dart';
-import 'package:qr_attend/screens/countries/model/country_model.dart';
-import 'package:qr_attend/services/shared_pref_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qr_attend/models/resources.dart';
+import 'package:qr_attend/models/status.dart';
+import 'package:qr_attend/screens/attends/model/attend_model.dart';
+import 'package:qr_attend/screens/countries/model/country_model.dart';
+import 'package:qr_attend/screens/subjects/model/category_model.dart';
+import 'package:qr_attend/services/shared_pref_services.dart';
 import 'package:qr_attend/utils/constants.dart';
 
 import '../locator.dart';
+import '../screens/attends/model/attend_date_model.dart';
 import '../screens/login/model/system_user_model.dart';
 import '../utils/shared_preferences_constants.dart';
 
@@ -237,6 +237,43 @@ class FirebaseServices {
     }
   }
 
+  Future<Resource<List<AttendDateModel>>> getSubjectAttendDates(
+      String subjectId, String type, int selectedSectionNumber) async {
+    List<AttendDateModel> dates = [];
+    try {
+      if (type == 'Section') {
+        await db
+            .collection("subjects")
+            .doc(subjectId)
+            .collection("attend_date")
+            .where("type", isEqualTo: type)
+            .where("section", isEqualTo: selectedSectionNumber.toString())
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            dates.add(AttendDateModel.fromJson(element.data()));
+          }
+        });
+      } else {
+        await db
+            .collection("subjects")
+            .doc(subjectId)
+            .collection("attend_date")
+            .where("type", isEqualTo: type)
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            dates.add(AttendDateModel.fromJson(element.data()));
+          }
+        });
+      }
+      return Resource(Status.SUCCESS, data: dates);
+    } on FirebaseAuthException catch (e) {
+      print('error ${e.toString()}');
+      return Resource(Status.ERROR, errorMessage: e.toString());
+    }
+  }
+
   Future<Resource<UserCredential>> reLogin() async {
     try {
       await auth.signOut();
@@ -256,5 +293,4 @@ class FirebaseServices {
         .delete()
         .then((value) => print('deleted'));
   }
-
 }
