@@ -201,7 +201,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                                       child: Row(
                                         children: [
                                           SizedBox(
-                                            width: 180,
+                                            width: 170,
                                             height: 60,
                                             child: Container(
                                               alignment: Alignment.centerRight,
@@ -227,9 +227,12 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                                                             onChanged: (_) {},
                                                           ),
                                                         ),
-                                                      )
+                                                      ),
                                                     ],
                                                   )),
+                                          VerticalDivider(
+                                            color: blackColor,
+                                          ),
                                         ],
                                       ),
                                     ),
