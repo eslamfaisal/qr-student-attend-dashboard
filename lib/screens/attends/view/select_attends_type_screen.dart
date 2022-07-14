@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_attend/screens/attends/model/attend_date_model.dart';
 import 'package:qr_attend/screens/attends/model/attend_model.dart';
 import 'package:qr_attend/screens/attends/model/attends_type.dart';
 import 'package:qr_attend/screens/attends/viewmodel/select_attend_type_view_model.dart';
@@ -78,7 +79,8 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                       ),
                       widthSpace(16),
                       Expanded(
-                        child: Container(
+                        child:
+                        Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 8,
@@ -112,7 +114,8 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                       widthSpace(16),
                       if (viewModel.selectedAttendType == AttendType.Section)
                         Expanded(
-                          child: Container(
+                          child:
+                          Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 8,
@@ -220,9 +223,10 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                                                   color: Colors.black),
                                             ),
                                           ),
-                                          ...viewModel.allAttendsList.map((attend) =>
-                                              AttendCheckBox(
-                                                  viewModel, user, attend)),
+                                          ...getStudendAttends(viewModel,user),
+                                          // ...viewModel.allAttendsList.map((attend) =>
+                                          //     AttendCheckBox(
+                                          //         viewModel, user, attend)),
                                           VerticalDivider(
                                             color: blackColor,
                                           ),
@@ -255,12 +259,8 @@ class SelectAttendsTypeScreen extends StatelessWidget {
     int index = 0;
     viewModel.subjectAttendsDateList.forEach((date) {
       try {
-        if (viewModel.allAttendsList.length == index - 1) {
-          widgets.add(
-              AttendCheckBox(viewModel, user, viewModel.allAttendsList[index]));
-        } else {
-          widgets.add(AttendCheckBox(viewModel, user, null));
-        }
+        widgets.add(
+            AttendCheckBox(viewModel, user, date));
       } catch (e) {
         print(e);
         widgets.add(AttendCheckBox(viewModel, user, null));
@@ -274,7 +274,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
 class AttendCheckBox extends StatefulWidget {
   final SelectAttendTypeViewModel viewModel;
   final SystemUserModel user;
-  final AttendModel? attend;
+  final AttendDateModel? attend;
 
   AttendCheckBox(this.viewModel, this.user, this.attend);
 
@@ -317,7 +317,7 @@ class _AttendCheckBoxState extends State<AttendCheckBox> {
     widget.viewModel.allAttendsList.forEach((attend) {
       if (attend.userId == widget.user.id &&
           attend.date == widget.attend!.date &&
-          attend.attendType == widget.attend!.attendType) {
+          attend.attendType == widget.attend!.type) {
         isSelected = true;
       }
     });
