@@ -9,6 +9,7 @@ import 'package:qr_attend/screens/subjects/viewmodel/subjects_date_dialog_view_m
 import 'package:qr_attend/services/navigation_service.dart';
 import 'package:qr_attend/utils/colors.dart';
 import 'package:qr_attend/utils/common_functions.dart';
+import 'package:qr_attend/utils/extensions.dart';
 import 'package:qr_attend/utils/texts.dart';
 import 'package:qr_attend/widgets/styled_text_field.dart';
 
@@ -54,7 +55,20 @@ class SubjectDateDialogWidget extends StatelessWidget {
                   controller: viewModel.dateController,
                   hint: tr('التاريخ'),
                   validator: requiredValidator(),
-                ),
+                    enabled: false
+                ).onTap((){
+                  showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(DateTime.now().year - 1),
+                    lastDate: DateTime(DateTime.now().year + 1),
+                  ).then((date) {
+                    if (date != null) {
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                      viewModel.dateController.text = formattedDate;
+                    }
+                  });
+                }),
                 heightSpace(4),
                 if (attendType == 'Section')
                   StyledTextField(

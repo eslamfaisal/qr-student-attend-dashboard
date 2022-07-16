@@ -14,10 +14,12 @@ class StyledTextField extends StatelessWidget {
   final Function? onIconPressed;
   final Function(String)? onChanged;
   final bool unLimitLines;
+  final bool enabled;
   StyledTextField({
     this.controller,
     this.keyboardType = TextInputType.text,
     this.isPassword = false,
+    this.enabled = true,
     this.hint,
     this.validator,
     this.borderPadding,
@@ -33,6 +35,7 @@ class StyledTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      enabled: enabled,
       keyboardType: keyboardType,
       obscureText: isPassword,
       style: textFieldTextStyle,
