@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:qr_attend/screens/attends/model/attend_date_model.dart';
 import 'package:qr_attend/screens/attends/model/attends_type.dart';
 import 'package:qr_attend/screens/attends/viewmodel/select_attend_type_view_model.dart';
@@ -151,7 +154,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 260,
+                        width: 300,
                         height: 50,
                       ),
                       VerticalDivider(
@@ -281,17 +284,60 @@ class SelectAttendsTypeScreen extends StatelessWidget {
         print(e);
       }
     }
+
+    var percent = (attendCount / totalCount) * 100;
     return Container(
-      width: 60,
+      width: 100,
       height: 50,
       child: Center(
-        child: Text(
-          (attendCount / totalCount * 100).toStringAsFixed(2) + '%',
-          style:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        child: Row(
+          children: [
+            Text(
+              '${percent.toStringAsFixed(2)}%',
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+            widthSpace(8),
+            if(percent < 80)
+            IconButton(
+                onPressed: () {
+                  sendWarning(user.id!, viewModel.selectedSubjectModel!.name!);
+                },
+                icon: const Icon(Icons.notification_important_outlined, color: Colors.red)),
+          ],
         ),
       ),
     );
+  }
+}
+
+sendWarning(String id, String subject) async {
+  var headers = {
+    'Authorization':
+        'key=AAAA6Sg2kp4:APA91bE-9osWFHmjWluvpjUukDkK7T05bfrMeCFxKBVTt1_bhNBjChEx4K69NU9xYhbvVBv_FXpBRXP9ceCrLCHFTy3PNOJafi_SmBkbWZvNqAKrIkWA7LrZBR8ZK3QQhEU3rPsNqSA8',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  var request =
+      http.Request('POST', Uri.parse('https://fcm.googleapis.com/fcm/send'));
+  request.body = json.encode({
+    "to": "/topics/${id}",
+    "notification": {
+      "body":
+          "You have exceeded the limit of absence, and this is the first warning, and please attend ($subject) on the specified dates, Computer and Information Students Affairs",
+      "OrganizationId": "2",
+      "content_available": true,
+      "priority": "high"
+    }
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+  } else {
+    print(response.reasonPhrase);
   }
 }
 
