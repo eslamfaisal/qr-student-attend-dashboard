@@ -13,9 +13,9 @@ import '../../../locator.dart';
 
 class LoginViewModel extends BaseViewModel {
   TextEditingController emailController =
-      TextEditingController(text: "eslam.faisal.ef@gmail.com");
+      TextEditingController(text: "admin@bfcai.com");
   TextEditingController passwordController =
-      TextEditingController(text: "111111");
+      TextEditingController(text: "123456");
 
   final formKey = GlobalKey<FormState>();
   final _firebaseServices = locator<FirebaseServices>();
