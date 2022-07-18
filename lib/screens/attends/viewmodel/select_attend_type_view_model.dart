@@ -19,7 +19,6 @@ class SelectAttendTypeViewModel extends BaseViewModel {
   List<AttendModel> allAttendsList = [];
 
   List<AttendDateModel> subjectAttendsDateList = [];
-  AttendDateModel? selectedAttendDate;
 
   SubjectModel? selectedSubjectModel;
   int selectedSectionNumber = 1;

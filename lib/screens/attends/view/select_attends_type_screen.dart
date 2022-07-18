@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_attend/screens/attends/model/attend_date_model.dart';
-import 'package:qr_attend/screens/attends/model/attend_model.dart';
 import 'package:qr_attend/screens/attends/model/attends_type.dart';
 import 'package:qr_attend/screens/attends/viewmodel/select_attend_type_view_model.dart';
 import 'package:qr_attend/screens/login/model/system_user_model.dart';
@@ -79,8 +78,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                       ),
                       widthSpace(16),
                       Expanded(
-                        child:
-                        Container(
+                        child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 8,
@@ -114,8 +112,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                       widthSpace(16),
                       if (viewModel.selectedAttendType == AttendType.Section)
                         Expanded(
-                          child:
-                          Container(
+                          child: Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 8,
@@ -154,7 +151,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 200,
+                        width: 260,
                         height: 50,
                       ),
                       VerticalDivider(
@@ -223,7 +220,9 @@ class SelectAttendsTypeScreen extends StatelessWidget {
                                                   color: Colors.black),
                                             ),
                                           ),
-                                          ...getStudendAttends(viewModel,user),
+                                          getUserAttendPercentage(
+                                              viewModel, user),
+                                          ...getStudendAttends(viewModel, user),
                                           // ...viewModel.allAttendsList.map((attend) =>
                                           //     AttendCheckBox(
                                           //         viewModel, user, attend)),
@@ -259,8 +258,7 @@ class SelectAttendsTypeScreen extends StatelessWidget {
     int index = 0;
     viewModel.subjectAttendsDateList.forEach((date) {
       try {
-        widgets.add(
-            AttendCheckBox(viewModel, user, date));
+        widgets.add(AttendCheckBox(viewModel, user, date));
       } catch (e) {
         print(e);
         widgets.add(AttendCheckBox(viewModel, user, null));
@@ -268,6 +266,32 @@ class SelectAttendsTypeScreen extends StatelessWidget {
       index++;
     });
     return widgets;
+  }
+
+  getUserAttendPercentage(
+      SelectAttendTypeViewModel viewModel, SystemUserModel user) {
+    int attendCount = 0;
+    int totalCount = viewModel.subjectAttendsDateList.length;
+    for (var date in viewModel.allAttendsList) {
+      try {
+        if (date.userId == user.id) {
+          attendCount++;
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+    return Container(
+      width: 60,
+      height: 50,
+      child: Center(
+        child: Text(
+          (attendCount / totalCount * 100).toStringAsFixed(2) + '%',
+          style:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+      ),
+    );
   }
 }
 
